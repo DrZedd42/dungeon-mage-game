@@ -21,6 +21,8 @@
         "vite": "^4.2.1"
     },
     "scripts": {
-        "dev": "vite"
+        "dev": "vite --open",
+        "build": "vite build",
+        "preview": "vite preview --open"
     }
 }
