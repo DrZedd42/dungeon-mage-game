@@ -1,0 +1,26 @@
+{
+    "name": "dungeon-mage-game",
+    "version": "1.0.0",
+    "description": "A community-driven open-source dungeon-crawler game with pixel art visuals",
+    "keywords": [
+        "Community",
+        "Phaser",
+        "PixelArt",
+        "Game",
+        "2D",
+        "TypeScript",
+        "JavaScript"
+    ],
+    "author": "greenpixels",
+    "license": "ISC",
+    "dependencies": {
+        "phaser": "^3.55.2"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.2",
+        "vite": "^4.2.1"
+    },
+    "scripts": {
+        "dev": "vite"
+    }
+}
