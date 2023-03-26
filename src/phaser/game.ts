@@ -8,5 +8,6 @@ export class Game extends Phaser.Game {
 }
 
 window.addEventListener('load', () => {
-    (window as any)._game = new Game(GameConfig);
+    let game = new Game(GameConfig);
+    (window as any)._game = game;
 });
