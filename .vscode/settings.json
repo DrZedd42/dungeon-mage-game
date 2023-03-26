@@ -77,5 +77,6 @@
             "multiline": false
         }
     ],
-    "commit-message-editor.view.visibleViews": "form"
+    "commit-message-editor.view.visibleViews": "form",
+    "jest.rootPath": "./src"
 }
