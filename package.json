@@ -14,7 +14,9 @@
     "author": "greenpixels",
     "license": "ISC",
     "dependencies": {
-        "phaser": "^3.55.2"
+        "@types/uuid": "^9.0.1",
+        "phaser": "^3.55.2",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "@babel/preset-typescript": "^7.21.0",
