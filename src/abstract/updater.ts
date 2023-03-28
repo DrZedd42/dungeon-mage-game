@@ -7,7 +7,11 @@ export class Updater {
             updatable.update(_delta);
         });
     }
-    public register(_updateable: Updateable) {
+    public add(_updateable: Updateable) {
         this.updateables.push(_updateable);
+    }
+
+    public getUpdateables() {
+        return this.updateables;
     }
 }
