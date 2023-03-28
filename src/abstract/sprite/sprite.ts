@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class Sprite {
     private x: number = 0;
     private y: number = 0;
@@ -7,20 +9,22 @@ export class Sprite {
     private offsetY: number = 0;
     private scaleX: number = 1;
     private scaleY: number = 1;
-    private src: string;
-    private identifier: string;
+    private uuid: string;
+    private resourceIdentifier: string;
 
-    constructor(_identifier: string, _src: string) {
-        this.src = _src;
-        this.identifier = _identifier;
+    constructor(_resourceIdentifier: string) {
+        this.uuid = uuidv4();
+        this.resourceIdentifier = _resourceIdentifier;
     }
 
-    getIdentifier() {
-        return this.identifier;
+    // The resource identifier should be a key unique to the resource representing that sprite (e.g "player_idle", "tree_big", "explosion_small_blue", ...)
+    // This helps the render engine using the game logic to better and more easily identify the sprites when drawing
+    public getResourceIdentifier() {
+        return this.resourceIdentifier;
     }
 
-    public getSrc() {
-        return this.src;
+    public getUUID() {
+        return this.uuid;
     }
 
     public setPosition(_x: number, _y: number) {

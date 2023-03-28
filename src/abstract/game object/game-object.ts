@@ -1,6 +1,6 @@
-import { Collider } from './colliders/collider';
-import { Sprite } from './sprites/sprite';
-import { Updateable } from './updateable';
+import { Collider } from '../colliders/collider';
+import { Sprite } from '../sprite/sprite';
+import { Updateable } from '../updateable';
 
 export class GameObject extends Updateable {
     private x: number;
@@ -17,11 +17,16 @@ export class GameObject extends Updateable {
         this.y = _y;
         this.previousX = this.x;
         this.previousY = this.y;
+
+        if (this.collider) {
+            this.collider.setPosition(_x, _y);
+        }
         return this;
     }
 
     setCollider(_collider: Collider) {
         this.collider = _collider;
+        this.collider.setPosition(this.getPosition().x, this.getPosition().y);
         return this;
     }
 
@@ -31,6 +36,7 @@ export class GameObject extends Updateable {
 
     setSprite(_sprite: Sprite) {
         this.sprite = _sprite;
+        this.sprite.setPosition(this.getPosition().x, this.getPosition().y);
         return this;
     }
 
