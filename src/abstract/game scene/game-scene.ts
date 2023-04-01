@@ -15,4 +15,13 @@ export abstract class GameScene extends Updater {
     setInputController(_inputController: InputController) {
         this.inputController = _inputController;
     }
+
+    getInputController() {
+        if (!this.inputController) {
+            throw new Error(
+                'Trying to access an input controller of a scene where the input controller has not been set yet.'
+            );
+        }
+        return this.inputController;
+    }
 }
