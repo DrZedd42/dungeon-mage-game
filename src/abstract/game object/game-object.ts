@@ -6,7 +6,7 @@ import { Updateable } from '../updateable';
     Extend this class when you create a new game object
 */
 
-export class GameObject extends Updateable {
+export abstract class GameObject extends Updateable {
     private x: number;
     private y: number;
     private previousX: number;
