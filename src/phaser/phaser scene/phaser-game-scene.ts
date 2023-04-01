@@ -2,6 +2,7 @@ import { GameObject } from '../../abstract/game object/game-object';
 import { GameScene } from '../../abstract/game scene/game-scene';
 import { Sprite } from '../../abstract/sprite/sprite';
 import { Updateable } from '../../abstract/updateable';
+import { PhaserKeyBoardInputContoller } from '../phaser-keyboard-input-controller';
 
 /*
     Extend this class when you create new phaser scene
@@ -22,6 +23,12 @@ export class PhaserGameScene extends Phaser.Scene {
         super(_gameConfig);
         this.gameScene = _gameScene;
         this.preload = _preload;
+    }
+
+    public init() {
+        this.gameScene.setInputController(
+            new PhaserKeyBoardInputContoller(this)
+        );
     }
 
     public update(_time: number, _delta: number) {
