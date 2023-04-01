@@ -15,16 +15,17 @@ export class RectCollider extends Collider {
         this.height = _height;
     }
 
-    getPosition(): { x: number; y: number } {
-        return { x: this.x, y: this.y };
-    }
-
     getDimensions(): { width: number; height: number } {
         return { width: this.width, height: this.height };
     }
 
     checkPoint(_x: number, _y: number): boolean {
-        throw new Error('Method not implemented.');
+        return (
+            _x >= this.x &&
+            _x <= this.x + this.width &&
+            _y >= this.y &&
+            _y <= this.y + this.height
+        );
     }
 
     checkCollision(_collider: Collider): boolean {

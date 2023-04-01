@@ -11,4 +11,8 @@ export abstract class Collider {
         this.x = _x;
         this.y = _y;
     }
+
+    getPosition(): { x: number; y: number } {
+        return { x: this.x, y: this.y };
+    }
 }
