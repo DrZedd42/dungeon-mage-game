@@ -61,8 +61,6 @@ export class PhaserGameScene extends Phaser.Scene {
             relatedPhaserSprite.name = _gameSprite.getUUID();
         }
         this.matchSpriteAttributes(_gameSprite, relatedPhaserSprite);
-
-        console.log(relatedPhaserSprite);
     }
 
     private matchSpriteAttributes(
