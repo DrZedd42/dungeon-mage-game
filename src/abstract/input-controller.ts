@@ -6,7 +6,7 @@ export interface KeyInputProps {
 
 export interface DirectionalInputProps {
     active: boolean;
-    vector: { x: number; y: number };
+    degree: number;
 }
 
 export interface InputController {
