@@ -1,4 +1,5 @@
 import { Collider } from '../colliders/collider';
+import { GameScene } from '../game scene/game-scene';
 import { Sprite } from '../sprite/sprite';
 import { Updateable } from '../updateable';
 
@@ -13,19 +14,25 @@ export abstract class GameObject extends Updateable {
     private previousY: number;
     private collider: Collider | undefined;
     private sprite: Sprite | undefined;
+    private scene: GameScene;
     public onPostUpdate: Array<Function> = [];
+    public onPreUpdate: Array<Function> = [];
 
-    constructor(_x: number, _y: number) {
+    constructor(_x: number, _y: number, _scene: GameScene) {
         super();
         this.x = _x;
         this.y = _y;
         this.previousX = this.x;
         this.previousY = this.y;
-
+        this.scene = _scene;
         if (this.collider) {
             this.collider.setPosition(_x, _y);
         }
         return this;
+    }
+
+    getRelatedScene() {
+        return this.scene;
     }
 
     setCollider(_collider: Collider) {
@@ -48,10 +55,16 @@ export abstract class GameObject extends Updateable {
         return this.sprite;
     }
 
+    // update event system pre-update -> updates -> post-update
     update(_delta: number | undefined) {
         this.updatePreviousPosition();
-        while (this.updateStack.length > 0) {
-            let func: Function = this.updateStack.pop()!;
+        if (this.onPreUpdate) {
+            this.onPreUpdate.forEach((onPreUpdateFunction) =>
+                onPreUpdateFunction.bind(this)(_delta)
+            );
+        }
+        while (!this.checkUpdatesEmpty()) {
+            let func: Function = this.getNextUpdate();
             func.bind(this)(_delta);
         }
         if (this.onPostUpdate) {
@@ -67,7 +80,7 @@ export abstract class GameObject extends Updateable {
     }
 
     public setPosition(_x: number, _y: number) {
-        this.updateStack.push(() => {
+        this.addToUpdate(() => {
             this.x = _x;
             this.y = _y;
             if (this.sprite) {
@@ -78,6 +91,22 @@ export abstract class GameObject extends Updateable {
             }
         });
         return this;
+    }
+
+    public moveTowardsDirection(
+        _degree: number,
+        _distance: number,
+        _angleType: 'radians' | 'degree'
+    ) {
+        let angle: number = _degree;
+        if (_angleType === 'degree') {
+            // if degree is provided we need to convert to radians in order to use Math-functions
+            angle = (_degree * Math.PI) / 180;
+        }
+
+        let stepX = _distance * Math.cos(angle);
+        let stepY = _distance * Math.sin(angle);
+        this.setPosition(this.x + stepX, this.y + stepY);
     }
 
     public getPreviousPosition() {
