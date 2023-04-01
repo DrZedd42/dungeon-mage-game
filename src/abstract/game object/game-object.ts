@@ -2,6 +2,10 @@ import { Collider } from '../colliders/collider';
 import { Sprite } from '../sprite/sprite';
 import { Updateable } from '../updateable';
 
+/*
+    Extend this class when you create a new game object
+*/
+
 export class GameObject extends Updateable {
     private x: number;
     private y: number;
