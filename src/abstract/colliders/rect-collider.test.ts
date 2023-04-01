@@ -69,4 +69,43 @@ describe('Test rect-collider.ts', () => {
         let collider2 = new RectCollider(0, 5, 5, 5);
         expect(collider1.checkCollision(collider2)).toBe(true);
     });
+
+    test('Should change dimensions', () => {
+        let collider = new RectCollider(0, 0, 5, 5);
+        collider.setDimensions(50, 50);
+        expect(collider.getDimensions().width).toBe(50);
+        expect(collider.getDimensions().height).toBe(50);
+    });
+
+    test('Should change position', () => {
+        let collider = new RectCollider(0, 0, 5, 5);
+        collider.setPosition(50, 50);
+        expect(collider.getPosition().x).toBe(50);
+        expect(collider.getPosition().y).toBe(50);
+    });
+
+    test('Should change position', () => {
+        let collider = new RectCollider(0, 0, 5, 5);
+        collider.setPosition(50, 50);
+        expect(collider.getPosition().x).toBe(50);
+        expect(collider.getPosition().y).toBe(50);
+    });
+
+    test('Should have collision with point that is inside the rect', () => {
+        let collider = new RectCollider(0, 0, 50, 50);
+        expect(collider.checkPoint(0, 50)).toBe(true);
+        expect(collider.checkPoint(50, 50)).toBe(true);
+        expect(collider.checkPoint(50, 50)).toBe(true);
+        expect(collider.checkPoint(50, 0)).toBe(true);
+        expect(collider.checkPoint(25, 25)).toBe(true);
+    });
+
+    test('Should not have collision with point that is not inside the rect', () => {
+        let collider = new RectCollider(0, 0, 50, 50);
+        expect(collider.checkPoint(0, 51)).toBe(false);
+        expect(collider.checkPoint(51, 51)).toBe(false);
+        expect(collider.checkPoint(51, 51)).toBe(false);
+        expect(collider.checkPoint(51, 0)).toBe(false);
+        expect(collider.checkPoint(-1, -1)).toBe(false);
+    });
 });
