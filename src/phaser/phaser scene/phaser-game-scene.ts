@@ -8,7 +8,7 @@ import { Updateable } from '../../abstract/updateable';
 */
 
 export class PhaserGameScene extends Phaser.Scene {
-    private gameScene: GameScene;
+    protected gameScene: GameScene;
     private sprites: Array<Phaser.GameObjects.Sprite> = [];
     // @ts-ignore 'preload' will be called by the Phaser-Scene-Manager
     // Use 'this.load.image("key", "path")' for every sprite that is and can be drawn in this scene inside of _preload
