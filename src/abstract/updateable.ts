@@ -1,22 +1,37 @@
-export abstract class Updateable {
+export class Updateable {
+    public onPostUpdate: Array<Function> = [];
+    public onPreUpdate: Array<Function> = [];
     private updateStack: Array<Function> = [];
-    addToUpdate(func: Function) {
+
+    // Adding a function to this stack will not clear it and continously call it before each update
+    addToPersistentPreUpdate(func: Function) {
+        this.onPreUpdate.push(func);
+    }
+
+    // Adding a function to this stack will clear it once it is called
+    addToTemporaryUpdate(func: Function) {
         this.updateStack.push(func);
     }
 
-    checkUpdatesEmpty() {
-        return this.updateStack.length <= 0;
+    // Adding a function to this stack will not clear it and continously call it after each update
+    addToPersistentPostUpdate(func: Function) {
+        this.onPostUpdate.push(func);
     }
 
-    getNextUpdate(): Function {
-        let func = this.updateStack.pop();
-        if (func instanceof Function) {
-            return func;
-        } else {
-            throw new Error(
-                "Update Stack was empty, please check with 'checkUpdatesEmpty' before calling this function."
+    update(_delta: number | undefined) {
+        if (this.onPreUpdate) {
+            this.onPreUpdate.forEach((onPreUpdateFunction) =>
+                onPreUpdateFunction.bind(this)(_delta)
+            );
+        }
+        while (this.updateStack.length > 0) {
+            let func = this.updateStack.pop()!;
+            func.bind(this)(_delta);
+        }
+        if (this.onPostUpdate) {
+            this.onPostUpdate.forEach((onPostUpdateFunction) =>
+                onPostUpdateFunction.bind(this)(_delta)
             );
         }
     }
-    abstract update(_delta: number): void;
 }

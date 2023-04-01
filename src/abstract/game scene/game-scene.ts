@@ -5,7 +5,7 @@ import { Updater } from '../updater';
     Extend this class when you create a new game scene
 */
 
-export abstract class GameScene extends Updater {
+export class GameScene extends Updater {
     protected inputController: InputController | undefined;
 
     constructor() {

@@ -7,7 +7,7 @@ import { Updateable } from '../updateable';
     Extend this class when you create a new game object
 */
 
-export abstract class GameObject extends Updateable {
+export class GameObject extends Updateable {
     private x: number;
     private y: number;
     private previousX: number;
@@ -15,8 +15,6 @@ export abstract class GameObject extends Updateable {
     private collider: Collider | undefined;
     private sprite: Sprite | undefined;
     private scene: GameScene;
-    public onPostUpdate: Array<Function> = [];
-    public onPreUpdate: Array<Function> = [];
 
     constructor(_x: number, _y: number, _scene: GameScene) {
         super();
@@ -25,9 +23,7 @@ export abstract class GameObject extends Updateable {
         this.previousX = this.x;
         this.previousY = this.y;
         this.scene = _scene;
-        if (this.collider) {
-            this.collider.setPosition(_x, _y);
-        }
+        this.addToPersistentPreUpdate(this.updatePreviousPosition);
         return this;
     }
 
@@ -55,32 +51,13 @@ export abstract class GameObject extends Updateable {
         return this.sprite;
     }
 
-    // update event system pre-update -> updates -> post-update
-    update(_delta: number | undefined) {
-        this.updatePreviousPosition();
-        if (this.onPreUpdate) {
-            this.onPreUpdate.forEach((onPreUpdateFunction) =>
-                onPreUpdateFunction.bind(this)(_delta)
-            );
-        }
-        while (!this.checkUpdatesEmpty()) {
-            let func: Function = this.getNextUpdate();
-            func.bind(this)(_delta);
-        }
-        if (this.onPostUpdate) {
-            this.onPostUpdate.forEach((onPostUpdateFunction) =>
-                onPostUpdateFunction.bind(this)(_delta)
-            );
-        }
-    }
-
     private updatePreviousPosition() {
         this.previousX = this.x;
         this.previousY = this.y;
     }
 
     public setPosition(_x: number, _y: number) {
-        this.addToUpdate(() => {
+        this.addToTemporaryUpdate(() => {
             this.x = _x;
             this.y = _y;
             if (this.sprite) {
@@ -99,14 +76,25 @@ export abstract class GameObject extends Updateable {
         _angleType: 'radians' | 'degree'
     ) {
         let angle: number = _degree;
+
         if (_angleType === 'degree') {
             // if degree is provided we need to convert to radians in order to use Math-functions
             angle = (_degree * Math.PI) / 180;
         }
 
-        let stepX = _distance * Math.cos(angle);
-        let stepY = _distance * Math.sin(angle);
-        this.setPosition(this.x + stepX, this.y + stepY);
+        let stepX = Math.cos(angle);
+        let stepY = Math.sin(angle);
+        if (Math.abs(stepY) <= Number.EPSILON) {
+            stepY = 0;
+        }
+        if (Math.abs(stepX) <= Number.EPSILON) {
+            stepX = 0;
+        }
+
+        this.setPosition(
+            this.x + stepX * _distance,
+            this.y + stepY * _distance
+        );
     }
 
     public getPreviousPosition() {
