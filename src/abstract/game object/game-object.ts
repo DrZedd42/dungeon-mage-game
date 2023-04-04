@@ -2,6 +2,7 @@ import { Collider } from '../colliders/collider';
 import { GameScene } from '../game scene/game-scene';
 import { Sprite } from '../sprite/sprite';
 import { Updateable } from '../updateable';
+import { v4 as uuidv4 } from 'uuid';
 
 /*
     Extend this class when you create a new game object
@@ -15,6 +16,7 @@ export class GameObject extends Updateable {
     private collider: Collider | undefined;
     private sprite: Sprite | undefined;
     private scene: GameScene;
+    private uuid: string;
 
     constructor(_x: number, _y: number, _scene: GameScene) {
         super();
@@ -24,7 +26,12 @@ export class GameObject extends Updateable {
         this.previousY = this.y;
         this.scene = _scene;
         this.addToPersistentPreUpdate(this.updatePreviousPosition);
+        this.uuid = uuidv4();
         return this;
+    }
+
+    public getUUID() {
+        return this.uuid;
     }
 
     getRelatedScene() {
@@ -41,8 +48,23 @@ export class GameObject extends Updateable {
         return this.collider;
     }
 
-    setSprite(_sprite: Sprite) {
+    setSprite(_sprite: Sprite, _overwriteFields = false) {
+        let oldSprite = this.sprite;
         this.sprite = _sprite;
+        if (_overwriteFields && oldSprite) {
+            this.sprite.setDimension(
+                oldSprite.getDimension().width,
+                oldSprite.getDimension().height
+            );
+            this.sprite.setOffset(
+                oldSprite.getOffset().offsetX,
+                oldSprite.getOffset().offsetY
+            );
+            this.sprite.setScale(
+                oldSprite.getScale().scaleX,
+                oldSprite.getScale().scaleY
+            );
+        }
         this.sprite.setPosition(this.getPosition().x, this.getPosition().y);
         return this;
     }
