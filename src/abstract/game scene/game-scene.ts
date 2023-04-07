@@ -10,6 +10,12 @@ export class GameScene extends Updater {
 
     constructor() {
         super();
+        if (import.meta.env.DEV) {
+            console.log(
+                'Debug Mode Started. Call the _scene object in the console.'
+            );
+            (window as any)._scene = this;
+        }
     }
 
     setInputController(_inputController: InputController) {
