@@ -1,4 +1,5 @@
 import { GameObject } from '../../abstract/game object/game-object';
+import { Player } from '../../abstract/game object/objects/player';
 import { GameScene } from '../../abstract/game scene/game-scene';
 import { Sprite } from '../../abstract/sprite/sprite';
 import { Updateable } from '../../abstract/updateable';
@@ -14,6 +15,7 @@ import {
 
 export class PhaserGameScene extends Phaser.Scene {
     protected gameScene: GameScene;
+    protected isFollowing: boolean = false;
     private sprites: Array<{
         image: Phaser.GameObjects.Sprite;
         owner: string;
@@ -36,11 +38,19 @@ export class PhaserGameScene extends Phaser.Scene {
         this.gameScene.setInputController(
             new PhaserKeyBoardInputContoller(this)
         );
+        this.cameras.main.zoomTo(4);
     }
 
     public update(_time: number, _delta: number) {
         this.gameScene.updateAllUpdateables(_delta);
         this.gameScene.getUpdateables().forEach((_updateable: Updateable) => {
+            if (_updateable instanceof Player) {
+                // Follow Player with camera
+                if (!this.isFollowing) {
+                    this.isFollowing = true;
+                    this.cameras.main.startFollow(_updateable, false, 0.2, 0.2);
+                }
+            }
             if (_updateable instanceof GameObject) {
                 this.updatePhaserSprites(
                     _updateable.getSprite(),
