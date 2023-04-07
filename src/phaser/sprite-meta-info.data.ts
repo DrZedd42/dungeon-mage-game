@@ -1,5 +1,6 @@
 import LittleMageRunFilePath from '../../assets/images/spr_little_mage_run.png';
 import LittleMageIdleFilePath from '../../assets/images/spr_little_mage_idle.png';
+import GoldSwordFilePath from '../../assets/images/spr_gold_sword.png';
 import { PhaserGameScene } from './phaser scene/phaser-game-scene';
 
 type SpriteMetaInfo = {
@@ -16,6 +17,7 @@ type SpriteMetaInfo = {
 export type SpriteMetaInfoContainerKeys = {
     little_mage_run: string;
     little_mage_idle: string;
+    gold_sword: string;
 };
 
 export const SpriteMetaInfoContainer: {
@@ -42,6 +44,10 @@ export const SpriteMetaInfoContainer: {
             loop: true,
         },
     },
+    // Items
+    gold_sword: {
+        filepath: GoldSwordFilePath,
+    },
 };
 
 export function loadPhaserSpriteUsingMetaInfo(
@@ -57,6 +63,8 @@ export function loadPhaserSpriteUsingMetaInfo(
                 startFrame: 0,
                 endFrame: spriteMetaInfo.spritesheetAnimation.frames - 1,
             });
+        } else {
+            scene.load.image(spriteKey, spriteMetaInfo.filepath);
         }
     } else {
         throw new Error(

@@ -7,6 +7,7 @@ export class TestScenePhaser extends PhaserGameScene {
         super(_gameConfig, new TestScene(), () => {
             loadPhaserSpriteUsingMetaInfo(this, 'little_mage_run');
             loadPhaserSpriteUsingMetaInfo(this, 'little_mage_idle');
+            loadPhaserSpriteUsingMetaInfo(this, 'gold_sword');
         });
     }
 }
