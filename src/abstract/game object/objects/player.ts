@@ -2,8 +2,11 @@ import { RectCollider } from '../../colliders/rect-collider';
 import { GameScene } from '../../game scene/game-scene';
 import { Sprite } from '../../sprite/sprite';
 import { GameObject } from '../game-object';
+import { HeldItem } from './held items/held-item';
+import { GoldSword } from './held items/weapons/gold-sword';
 
 export class Player extends GameObject {
+    private heldItem: HeldItem | undefined;
     private sprites = {
         run: new Sprite('little_mage_run'),
         idle: new Sprite('little_mage_idle'),
@@ -12,7 +15,7 @@ export class Player extends GameObject {
     constructor(_x: number, _y: number, _scene: GameScene) {
         super(_x, _y, _scene);
         let sprite = this.sprites.run;
-        sprite.setDimension(50, 50);
+        sprite.setDimension(16, 16);
         let collider = new RectCollider(
             this.getPosition().x,
             this.getPosition().y,
@@ -22,6 +25,9 @@ export class Player extends GameObject {
         this.setSprite(sprite);
         this.setCollider(collider);
         this.onPreUpdate.push(this.move);
+        this.setHeldItem(
+            new GoldSword(this.getPosition().x, this.getPosition().y, this)
+        );
     }
 
     move(delta: number) {
@@ -44,6 +50,14 @@ export class Player extends GameObject {
             }
         } else {
             this.setSprite(this.sprites.idle, true);
+        }
+    }
+
+    setHeldItem(_heldItem: HeldItem) {
+        this.heldItem = _heldItem;
+        if (this.heldItem) {
+            this.getRelatedScene().add(this.heldItem);
+            console.log('Added!');
         }
     }
 }
