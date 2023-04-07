@@ -1,9 +1,9 @@
-import { TestObject } from '../../game object/objects/test-object';
+import { Player } from '../../game object/objects/player';
 import { GameScene } from '../game-scene';
 
 export class TestScene extends GameScene {
     constructor() {
         super();
-        this.add(new TestObject(50, 50, this));
+        this.add(new Player(50, 50, this));
     }
 }

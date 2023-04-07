@@ -3,7 +3,7 @@ import { GameScene } from '../../game scene/game-scene';
 import { Sprite } from '../../sprite/sprite';
 import { GameObject } from '../game-object';
 
-export class TestObject extends GameObject {
+export class Player extends GameObject {
     private sprites = {
         run: new Sprite('little_mage_run'),
         idle: new Sprite('little_mage_idle'),
