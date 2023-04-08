@@ -24,9 +24,19 @@ export class Player extends GameObject {
         this.setSprite(sprite);
         this.setCollider(collider);
         this.onPreUpdate.push(this.move);
+        this.onPreUpdate.push(this.positionHeldItem);
         this.setHeldItem(
             new GoldSword(this.getPosition().x, this.getPosition().y, this)
         );
+    }
+
+    positionHeldItem() {
+        if (this.heldItem) {
+            this.heldItem.setPosition(
+                this.getPosition().x,
+                this.getPosition().y
+            );
+        }
     }
 
     move(delta: number) {
@@ -35,7 +45,7 @@ export class Player extends GameObject {
             this.setSprite(this.sprites.run, true);
             this.moveTowardsDirection(
                 input.getMovementDirection().degree,
-                0.25 * delta,
+                0.2 * delta,
                 'degree'
             );
             if (this.getSprite()) {

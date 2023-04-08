@@ -15,12 +15,6 @@ export abstract class HeldItem extends GameObject {
         this.wielder = _wielder;
         let sprite = new Sprite(_name);
         this.setSprite(sprite);
-        this.onPreUpdate.push(() => {
-            this.setPosition(
-                this.wielder.getPosition().x,
-                this.wielder.getPosition().y
-            );
-        });
         this.rotate(-135);
     }
 
