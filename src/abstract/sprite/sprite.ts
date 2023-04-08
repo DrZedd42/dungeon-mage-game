@@ -3,14 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 export class Sprite {
     private x: number = 0;
     private y: number = 0;
-    private width: number = 0;
-    private height: number = 0;
     private offsetX: number = 0;
     private offsetY: number = 0;
     private scaleX: number = 1;
     private scaleY: number = 1;
     private uuid: string;
     private resourceIdentifier: string;
+    private depthOffset: number = 0;
+    private rotation: number = 0;
 
     constructor(_resourceIdentifier: string) {
         this.uuid = uuidv4();
@@ -21,6 +21,22 @@ export class Sprite {
     // This helps the render engine using the game logic to better and more easily identify the sprites when drawing
     public getResourceIdentifier() {
         return this.resourceIdentifier;
+    }
+
+    public setRotation(_rotation: number) {
+        this.rotation = _rotation;
+    }
+
+    public getRotation() {
+        return this.rotation;
+    }
+
+    public setDepthOffset(_depthOffset: number) {
+        this.depthOffset = _depthOffset;
+    }
+
+    public getDepthOffset() {
+        return this.depthOffset;
     }
 
     public getUUID() {
@@ -34,15 +50,6 @@ export class Sprite {
 
     public getPosition() {
         return { x: this.x, y: this.y };
-    }
-
-    public setDimension(_width: number, _height: number) {
-        this.width = _width;
-        this.height = _height;
-    }
-
-    public getDimension() {
-        return { width: this.width, height: this.height };
     }
 
     public setOffset(_offsetX: number, _offsetY: number) {

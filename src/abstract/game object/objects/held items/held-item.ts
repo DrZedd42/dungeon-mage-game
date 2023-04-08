@@ -13,18 +13,22 @@ export abstract class HeldItem extends GameObject {
     ) {
         super(_x, _y, _scene);
         this.wielder = _wielder;
+        let sprite = new Sprite(_name);
+        this.setSprite(sprite);
         this.onPreUpdate.push(() => {
             this.setPosition(
                 this.wielder.getPosition().x,
                 this.wielder.getPosition().y
             );
         });
-        let sprite = new Sprite(_name);
-        sprite.setDimension(16, 16);
-        this.setSprite(sprite);
+        this.rotate(-135);
     }
 
     setWielder(_wielder: GameObject) {
         this.wielder = _wielder;
+    }
+
+    rotate(_rotation: number) {
+        this.getSprite()!.setRotation(_rotation);
     }
 }

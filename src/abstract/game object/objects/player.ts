@@ -15,7 +15,6 @@ export class Player extends GameObject {
     constructor(_x: number, _y: number, _scene: GameScene) {
         super(_x, _y, _scene);
         let sprite = this.sprites.run;
-        sprite.setDimension(16, 16);
         let collider = new RectCollider(
             this.getPosition().x,
             this.getPosition().y,
@@ -57,7 +56,7 @@ export class Player extends GameObject {
         this.heldItem = _heldItem;
         if (this.heldItem) {
             this.getRelatedScene().add(this.heldItem);
-            console.log('Added!');
+            this.heldItem.getSprite()?.setDepthOffset(10);
         }
     }
 }
