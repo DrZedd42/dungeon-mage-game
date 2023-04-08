@@ -1,5 +1,4 @@
 import { GameScene } from '../../../../game scene/game-scene';
-import { GameObject } from '../../../game-object';
 import { HeldItem } from '../held-item';
 
 export class GoldSword extends HeldItem {
