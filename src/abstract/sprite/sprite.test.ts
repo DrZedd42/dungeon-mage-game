@@ -7,13 +7,6 @@ describe('Test Sprite', () => {
         expect(typeof sprite.getUUID()).toBe('string');
     });
 
-    test('Should have changed dimensions', () => {
-        let sprite = new Sprite('sprite');
-        sprite.setDimension(50, 50);
-        expect(sprite.getDimension().height).toBe(50);
-        expect(sprite.getDimension().width).toBe(50);
-    });
-
     test('Should have changed offset', () => {
         let sprite = new Sprite('sprite');
         sprite.setOffset(50, 50);

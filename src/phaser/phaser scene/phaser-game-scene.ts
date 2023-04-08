@@ -142,15 +142,27 @@ export class PhaserGameScene extends Phaser.Scene {
         _phaserSprite: Phaser.GameObjects.Sprite
     ) {
         if (!_gameSprite || !_phaserSprite) return;
+        let spriteInfo =
+            SpriteMetaInfoContainer[
+                _gameSprite.getResourceIdentifier() as keyof SpriteMetaInfoContainerKeys
+            ];
         let sprite = _gameSprite!;
 
         _phaserSprite.setPosition(
             sprite.getPosition().x,
             sprite.getPosition().y
         );
+
         _phaserSprite.setDisplaySize(
-            sprite.getDimension().width * sprite.getScale().scaleX,
-            sprite.getDimension().height * sprite.getScale().scaleY
+            spriteInfo.width * sprite.getScale().scaleX,
+            spriteInfo.height * sprite.getScale().scaleY
         );
+        _phaserSprite.setDepth(
+            _gameSprite.getPosition().y + _gameSprite.getDepthOffset()
+        );
+
+        _phaserSprite.setOrigin(spriteInfo.originX, spriteInfo.originY);
+
+        _phaserSprite.setRotation(_gameSprite.getRotation() * (Math.PI / 180));
     }
 }

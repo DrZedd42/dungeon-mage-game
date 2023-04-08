@@ -6,12 +6,15 @@ import { PhaserGameScene } from './phaser scene/phaser-game-scene';
 type SpriteMetaInfo = {
     filepath: string;
     spritesheetAnimation?: {
-        cellWidth: number;
-        cellHeight: number;
         speed: number;
         frames: number;
         loop: boolean;
     };
+    width: number;
+    height: number;
+    // Anchor Point of the image (Default is 0.5, range is 0.0 - 1.0)
+    originX?: number;
+    originY?: number;
 };
 
 export type SpriteMetaInfoContainerKeys = {
@@ -28,25 +31,28 @@ export const SpriteMetaInfoContainer: {
         filepath: LittleMageRunFilePath,
         spritesheetAnimation: {
             frames: 6,
-            cellWidth: 16,
-            cellHeight: 16,
             speed: 10,
             loop: true,
         },
+        width: 16,
+        height: 16,
     },
     little_mage_idle: {
         filepath: LittleMageIdleFilePath,
         spritesheetAnimation: {
             frames: 6,
-            cellWidth: 16,
-            cellHeight: 16,
             speed: 10,
             loop: true,
         },
+        width: 16,
+        height: 16,
     },
     // Items
     gold_sword: {
         filepath: GoldSwordFilePath,
+        width: 16,
+        height: 16,
+        originY: 1,
     },
 };
 
@@ -58,8 +64,8 @@ export function loadPhaserSpriteUsingMetaInfo(
     if (spriteMetaInfo) {
         if (spriteMetaInfo.spritesheetAnimation) {
             scene.load.spritesheet(spriteKey, spriteMetaInfo.filepath, {
-                frameWidth: spriteMetaInfo.spritesheetAnimation.cellWidth,
-                frameHeight: spriteMetaInfo.spritesheetAnimation.cellHeight,
+                frameWidth: spriteMetaInfo.width,
+                frameHeight: spriteMetaInfo.height,
                 startFrame: 0,
                 endFrame: spriteMetaInfo.spritesheetAnimation.frames - 1,
             });

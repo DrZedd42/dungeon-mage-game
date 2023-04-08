@@ -52,10 +52,6 @@ export class GameObject extends Updateable {
         let oldSprite = this.sprite;
         this.sprite = _sprite;
         if (_overwriteFields && oldSprite) {
-            this.sprite.setDimension(
-                oldSprite.getDimension().width,
-                oldSprite.getDimension().height
-            );
             this.sprite.setOffset(
                 oldSprite.getOffset().offsetX,
                 oldSprite.getOffset().offsetY
