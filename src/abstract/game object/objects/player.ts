@@ -26,7 +26,11 @@ export class Player extends GameObject {
         this.onPreUpdate.push(this.move);
         this.onPreUpdate.push(this.positionHeldItem);
         this.setHeldItem(
-            new GoldSword(this.getPosition().x, this.getPosition().y, this)
+            new GoldSword(
+                this.getPosition().x,
+                this.getPosition().y,
+                this.getRelatedScene()
+            )
         );
     }
 
