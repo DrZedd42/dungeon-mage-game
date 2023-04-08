@@ -7,7 +7,6 @@ export abstract class HeldItem extends GameObject {
         super(_x, _y, _scene);
         let sprite = new Sprite(_name);
         this.setSprite(sprite);
-        this.rotate(-135);
     }
 
     rotate(_rotation: number) {

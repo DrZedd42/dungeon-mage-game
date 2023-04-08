@@ -3,7 +3,7 @@ import { GameScene } from '../../game scene/game-scene';
 import { Sprite } from '../../sprite/sprite';
 import { GameObject } from '../game-object';
 import { HeldItem } from './held items/held-item';
-import { GoldSword } from './held items/weapons/gold-sword';
+import { GoldSword } from './held items/weapons/all/gold-sword';
 
 export class Player extends GameObject {
     private heldItem: HeldItem | undefined;
@@ -24,7 +24,6 @@ export class Player extends GameObject {
         this.setSprite(sprite);
         this.setCollider(collider);
         this.onPreUpdate.push(this.move);
-        this.onPreUpdate.push(this.positionHeldItem);
         this.setHeldItem(
             new GoldSword(
                 this.getPosition().x,
@@ -32,34 +31,36 @@ export class Player extends GameObject {
                 this.getRelatedScene()
             )
         );
+        this.positionHeldItem(false);
     }
 
-    positionHeldItem() {
+    positionHeldItem(_facingLeft: boolean) {
         if (this.heldItem) {
             this.heldItem.setPosition(
-                this.getPosition().x,
-                this.getPosition().y
+                this.getPosition().x + (_facingLeft ? 1 : -1),
+                this.getPosition().y + 2
             );
+            this.heldItem.rotate(_facingLeft ? 110 : -110);
         }
     }
 
     move(delta: number) {
         let input = this.getRelatedScene().getInputController();
         if (input.getMovementDirection().active) {
+            let facingLeft =
+                input.getMovementDirection().degree < -90 ||
+                input.getMovementDirection().degree > 90;
             this.setSprite(this.sprites.run, true);
             this.moveTowardsDirection(
                 input.getMovementDirection().degree,
                 0.2 * delta,
                 'degree'
             );
+
+            this.positionHeldItem(facingLeft);
+
             if (this.getSprite()) {
-                this.getSprite()!.setScale(
-                    input.getMovementDirection().degree < -90 ||
-                        input.getMovementDirection().degree > 90
-                        ? -1
-                        : 1,
-                    1
-                );
+                this.getSprite()!.setScale(facingLeft ? -1 : 1, 1);
             }
         } else {
             this.setSprite(this.sprites.idle, true);
